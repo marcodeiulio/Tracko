@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracko", "Tracko\Tracko.csproj", "{83338666-0113-43FC-85BE-5396C42404C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIs", "APIs\APIs.csproj", "{76EF18D7-3709-41E4-9B95-127E5D477E11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{D4D7D409-C11D-40E6-944C-973CE5207366}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83338666-0113-43FC-85BE-5396C42404C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83338666-0113-43FC-85BE-5396C42404C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83338666-0113-43FC-85BE-5396C42404C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83338666-0113-43FC-85BE-5396C42404C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76EF18D7-3709-41E4-9B95-127E5D477E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76EF18D7-3709-41E4-9B95-127E5D477E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76EF18D7-3709-41E4-9B95-127E5D477E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76EF18D7-3709-41E4-9B95-127E5D477E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D7D409-C11D-40E6-944C-973CE5207366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D7D409-C11D-40E6-944C-973CE5207366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D7D409-C11D-40E6-944C-973CE5207366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D7D409-C11D-40E6-944C-973CE5207366}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,7 @@
+{
+  "Local": {
+    "Authority": "https://{authority}/",
+    "ClientId": "{clientId}"
+  },
+  "ApiBaseUrl": "https://{address}:{port}/api/"
+}

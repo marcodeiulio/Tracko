@@ -1,0 +1,58 @@
+@page "/ViewJobApps"
+@using Shared.Models
+@using Tracko.Services
+@inject DataService svc
+
+<h3>Job Applications</h3>
+
+@if (_jobApps is null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Role</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Application Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var jobApp in _jobApps)
+            {
+                <tr>
+                    <th>@jobApp.Id</th>
+                    <td>@jobApp.Role</td>
+                    <td>@jobApp.Company?.Name</td>
+                    <td>@jobApp.Status</td>
+                    <td>@jobApp.ApplicationDate</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-warning">Edit</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<JobApplicationWithCompanyDto>? _jobApps;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _jobApps = await svc.GetJobApplications();
+    }
+
+}

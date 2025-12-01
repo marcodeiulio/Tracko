@@ -1,0 +1,49 @@
+@page "/ViewCompanies"
+@using Shared.Models
+@using Tracko.Services
+@inject DataService svc
+
+<h3>Companies</h3>
+
+@if (_companies is null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>HR</th>
+                <th>Headquarters</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var company in _companies)
+            {
+                <tr>
+                    <th>@company.Id</th>
+                    <td>@company.Name</td>
+                    <td>@company.HR</td>
+                    <td>@company.Headquarters</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<CompanyDto>? _companies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _companies = await svc.GetCompanies();
+    }
+
+}
