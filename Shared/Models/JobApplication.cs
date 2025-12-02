@@ -2,7 +2,7 @@ namespace Shared.Models;
 
 public class JobApplication
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
     public required string Role { get; set; }
     public string? Location { get; set; }
     public DateOnly? ApplicationDate { get; set; }
@@ -12,6 +12,10 @@ public class JobApplication
 
     public int? CompanyId { get; set; }
     public Company? Company { get; set; }
+
+    public string? JobDescription { get; set; }
+    public string? CoverLetter { get; set; }
+    public string? Notes { get; set; }
 }
 
 public class JobApplicationDto
@@ -22,6 +26,10 @@ public class JobApplicationDto
     public DateOnly? ApplicationDate { get; set; }
 
     public JobApplicationStatusesDto? Status { get; set; }
+
+    public string? JobDescription { get; set; }
+    public string? CoverLetter { get; set; }
+    public string? Notes { get; set; }
 }
 
 public class JobApplicationWithCompanyDto
@@ -34,6 +42,10 @@ public class JobApplicationWithCompanyDto
     public JobApplicationStatusesDto? Status { get; set; }
 
     public CompanyDto? Company { get; set; }
+
+    public string? JobDescription { get; set; }
+    public string? CoverLetter { get; set; }
+    public string? Notes { get; set; }
 }
 
 public class JobApplicationRequestDto
@@ -43,4 +55,7 @@ public class JobApplicationRequestDto
     public DateOnly? ApplicationDate { get; set; }
     public int? CompanyId { get; set; }
     public JobApplicationStatusesDto? Status { get; set; }
+    public string? JobDescription { get; set; }
+    public string? CoverLetter { get; set; }
+    public string? Notes { get; set; }
 }

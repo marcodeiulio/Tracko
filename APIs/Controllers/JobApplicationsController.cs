@@ -11,7 +11,7 @@ namespace APIs.Controllers;
 // [Authorize]
 public class JobApplicationsController : ControllerBase
 {
-    protected readonly IJobApplicationService _jobApplicationService;
+    private readonly IJobApplicationService _jobApplicationService;
 
     public JobApplicationsController(IJobApplicationService jobApplicationService)
     {

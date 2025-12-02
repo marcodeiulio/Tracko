@@ -67,6 +67,7 @@ public class CompanyService(ApplicationDbContext context) : ICompanyService
         companyToUpdate.Name = updatedCompany.Name;
         companyToUpdate.HR = updatedCompany.HR;
         companyToUpdate.Headquarters = updatedCompany.Headquarters;
+        companyToUpdate.Notes = updatedCompany.Notes;
 
         try
         {

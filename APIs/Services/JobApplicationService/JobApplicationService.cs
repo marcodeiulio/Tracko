@@ -87,6 +87,9 @@ public class JobApplicationService(ApplicationDbContext context) : IJobApplicati
         jobApplicationToUpdate.ApplicationDate = updatedJobApplication.ApplicationDate;
         jobApplicationToUpdate.StatusId = updatedJobApplication.StatusId;
         jobApplicationToUpdate.CompanyId = updatedJobApplication.CompanyId;
+        jobApplicationToUpdate.JobDescription = updatedJobApplication.JobDescription;
+        jobApplicationToUpdate.CoverLetter = updatedJobApplication.CoverLetter;
+        jobApplicationToUpdate.Notes = updatedJobApplication.Notes;
 
         try
         {
