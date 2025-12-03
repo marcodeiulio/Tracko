@@ -1,7 +1,7 @@
 @page "/ViewCompanies"
 @using Shared.Models
 @using Tracko.Services
-@inject DataService svc
+@inject DataService Svc
 
 <h3>Companies</h3>
 
@@ -21,6 +21,7 @@ else
                 <th>Name</th>
                 <th>HR</th>
                 <th>Headquarters</th>
+                <th>Notes</th>
             </tr>
             </thead>
             <tbody>
@@ -31,6 +32,7 @@ else
                     <td>@company.Name</td>
                     <td>@company.HR</td>
                     <td>@company.Headquarters</td>
+                    <td>@company.Notes</td>
                 </tr>
             }
             </tbody>
@@ -43,7 +45,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _companies = await svc.GetCompanies();
+        _companies = await Svc.GetCompaniesAsync();
     }
 
 }

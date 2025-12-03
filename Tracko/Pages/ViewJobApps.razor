@@ -1,9 +1,9 @@
 @page "/ViewJobApps"
 @using Shared.Models
 @using Tracko.Services
-@inject DataService svc
+@inject DataService Svc
 
-<h3>Job Applications</h3>
+<h3 class="mb-3">Job Applications</h3>
 
 @if (_jobApps is null)
 {
@@ -14,14 +14,18 @@
 else
 {
     <div class="table-responsive">
-        <table class="table table-sm">
+        <table class="table table-hover table-bordered">
             <thead>
             <tr>
                 <th>Id</th>
                 <th>Role</th>
                 <th>Company</th>
+                <th>Location</th>
                 <th>Status</th>
                 <th>Application Date</th>
+                <th>Job Description</th>
+                <th>Cover Letter</th>
+                <th>Notes</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -32,12 +36,22 @@ else
                     <th>@jobApp.Id</th>
                     <td>@jobApp.Role</td>
                     <td>@jobApp.Company?.Name</td>
+                    <td>@jobApp.Location</td>
                     <td>@jobApp.Status</td>
                     <td>@jobApp.ApplicationDate</td>
+                    <td>@jobApp.JobDescription</td>
+                    <td>@jobApp.CoverLetter</td>
+                    <td>@jobApp.Notes</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-danger">Delete</button>
-                            <button type="button" class="btn btn-warning">Edit</button>
+                            <button @onclick="@(() => ViewJobApplication(jobApp.Id))" type="button"
+                                    class="btn btn-warning">
+                                Edit
+                            </button>
+                            <button @onclick="@(() => DeleteJobApplication(jobApp.Id))" type="button"
+                                    class="btn btn-danger">
+                                Delete
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -47,12 +61,152 @@ else
     </div>
 }
 
+<div class="container my-5">
+    <h5>Add a Job Application</h5>
+    <EditForm class="row g-3"
+              Model="NewJobApp"
+              OnValidSubmit="HandleValidJobAppAsync"
+              FormName="JobApplication">
+
+        <div class="col-12 col-lg-6">
+            <label for="role-field" class="form-label">Role</label>
+            <InputText @bind-Value="NewJobApp.Role" id="role-field" class="form-control" list="roleOptions"/>
+            <datalist id="roleOptions">
+                @foreach (var role in _roles)
+                {
+                    <option value="@role"></option>
+                }
+            </datalist>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <label for="company-field" class="form-label">Company</label>
+            <input disabled type="text" id="company-field" class="form-control" list="companyOptions"/>
+            <datalist id="companyOptions">
+            </datalist>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <label for="applicationDate-field" class="form-label">Application Date</label>
+            <InputDate @bind-Value="NewJobApp.ApplicationDate" id="applicationDate-field"
+                       class="form-control"></InputDate>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <label for="location-field" class="form-label">Location</label>
+            <InputText @bind-Value="NewJobApp.Location" type="text" id="location-field" class="form-control"
+                       list="locationOptions"/>
+            <datalist id="locationOptions">
+                @foreach (var location in _locations)
+                {
+                    <option value="@location"></option>
+                }
+            </datalist>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <label for="status-field" class="form-label">Status</label>
+            <input disabled type="text" id="status-field" class="form-control" list="statusOptions">
+            <datalist id="statusOptions">
+                <option value="Applied"></option>
+            </datalist>
+        </div>
+
+        <div class="col-12 col-lg-12">
+            <label for="job-description-field" class="form-label">Job Description</label>
+            <InputTextArea @bind-Value="NewJobApp.JobDescription"
+                           id="job-description-field" class="form-control" rows="3"></InputTextArea>
+        </div>
+
+        <div class="col-12 col-lg-12">
+            <label for="cover-letter-field" class="form-label">Cover Letter</label>
+            <InputTextArea @bind-Value="NewJobApp.CoverLetter"
+                           id="cover-letter-field" class="form-control"
+                           rows="3"></InputTextArea>
+        </div>
+
+        <div class="col-12 col-lg-12">
+            <label for="notes-field" class="form-label">Notes</label>
+            <InputTextArea @bind-Value="NewJobApp.Notes"
+                           id="notes-field" class="form-control"
+                           rows="3"></InputTextArea>
+        </div>
+
+        <div class="offset-10 col-4">
+            <button for="JobApplication" class="btn btn-primary">Submit</button>
+        </div>
+
+    </EditForm>
+</div>
+
 @code {
+
+    public JobApplicationRequestDto NewJobApp { get; set; } = new();
+
     private List<JobApplicationWithCompanyDto>? _jobApps;
+    private readonly List<string> _roles = [];
+    private readonly List<string?> _locations = [];
+    private DateOnly CurrentDate => DateOnly.FromDateTime(DateTime.Today);
 
     protected override async Task OnInitializedAsync()
     {
-        _jobApps = await svc.GetJobApplications();
+        if (NewJobApp.ApplicationDate is null)
+            NewJobApp.ApplicationDate = CurrentDate;
+
+        await GetJobApplicationsAsync();
+    }
+
+    async Task HandleValidJobAppAsync()
+    {
+        if (NewJobApp.Id is null)
+            await Svc.CreateJobApplicationAsync(NewJobApp);
+        else
+            await Svc.UpdateJobApplicationAsync(NewJobApp);
+
+        NewJobApp = new JobApplicationRequestDto
+        {
+            ApplicationDate = CurrentDate
+        };
+
+        await GetJobApplicationsAsync();
+    }
+
+    async Task ViewJobApplication(int jobApplicationId)
+    {
+        NewJobApp = await Svc.GetJobApplicationByIdAsync(jobApplicationId) ?? new JobApplicationRequestDto();
+    }
+
+    private async Task DeleteJobApplication(int jobAppId)
+    {
+        await Svc.DeleteJobApplicationAsync(jobAppId);
+        await GetJobApplicationsAsync();
+        RefreshDataLists();
+    }
+
+    async Task GetJobApplicationsAsync()
+    {
+        _jobApps = await Svc.GetJobApplicationsAsync();
+        RefreshDataLists();
+    }
+
+    void RefreshDataLists()
+    {
+        if (_jobApps is null) return;
+
+        _roles.Clear();
+        _locations.Clear();
+
+        foreach (var jobApp in _jobApps)
+        {
+            if (!_roles.Contains(jobApp.Role))
+                _roles.Add(jobApp.Role);
+
+            if (jobApp.Location is not null && !_locations.Contains(jobApp.Location))
+                _locations.Add(jobApp.Location);
+        }
+
+        _roles.Sort();
+        _locations.Sort();
     }
 
 }
