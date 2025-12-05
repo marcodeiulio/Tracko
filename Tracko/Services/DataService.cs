@@ -19,19 +19,19 @@ public class DataService(HttpClient http)
         return jobApp?.Adapt<JobApplicationWithCompanyDto, JobApplicationRequestDto>();
     }
 
-    public async Task CreateJobApplicationAsync(JobApplicationRequestDto jobApplication)
+    public async Task<HttpResponseMessage> CreateJobApplicationAsync(JobApplicationRequestDto jobApplication)
     {
-        await http.PostAsJsonAsync("JobApplications", jobApplication);
+        return await http.PostAsJsonAsync("JobApplications", jobApplication);
     }
 
-    public async Task UpdateJobApplicationAsync(JobApplicationRequestDto updatedJobApplication)
+    public async Task<HttpResponseMessage> UpdateJobApplicationAsync(JobApplicationRequestDto updatedJobApplication)
     {
-        await http.PutAsJsonAsync($"JobApplications/{updatedJobApplication.Id}", updatedJobApplication);
+        return await http.PutAsJsonAsync($"JobApplications/{updatedJobApplication.Id}", updatedJobApplication);
     }
 
-    public async Task DeleteJobApplicationAsync(int id)
+    public async Task<HttpResponseMessage> DeleteJobApplicationAsync(int id)
     {
-        await http.DeleteAsync($"JobApplications/{id}");
+        return await http.DeleteAsync($"JobApplications/{id}");
     }
 
     public async Task<List<CompanyDto>?> GetCompaniesAsync()
