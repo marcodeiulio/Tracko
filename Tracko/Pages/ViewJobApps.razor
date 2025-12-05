@@ -230,11 +230,15 @@ else
     async Task GetJobApplicationsAsync()
     {
         var jobAppsToFormat = await Svc.GetJobApplicationsAsync();
+
         if (jobAppsToFormat is not null)
+        {
+            _jobApps?.Clear();
             foreach (var j in jobAppsToFormat)
             {
                 _jobApps?.Add(j.Adapt<JobApplicationWithCompanyDto, JobApplicationViewDto>());
             }
+        }
 
         RefreshDataLists();
     }
